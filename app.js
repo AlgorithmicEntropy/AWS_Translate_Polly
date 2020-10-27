@@ -11,6 +11,11 @@ app.get('/', (req, res) => {
   require('./src/build_html').send_HTML(res)
 })
 
+app.get('/health', (req, res) => {
+  res.writeHead(200)
+  res.end()
+})
+
 app.listen(port, () => {
   console.log(`Polly app listening on port ${port}!`)
 })
