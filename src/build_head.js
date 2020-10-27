@@ -13,7 +13,7 @@ function buildHead (params) {
 
     if (params.css) {
       params.css.forEach(sheet => {
-        html += '<link rel="stylesheet" href="' + sheet + '"\\>\n'
+        html += '<link type="text/css" rel="stylesheet" href="' + sheet + '"\\>\n'
       })
     }
 
