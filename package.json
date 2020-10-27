@@ -1,0 +1,16 @@
+{
+  "name": "polly",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "main": "index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.779.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}
