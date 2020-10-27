@@ -5,7 +5,8 @@
         <tr>
             <th align="left">
 Source Language Code:
-                <select id="sourceLanguageCodeDropdown">
+                <select id="sourceLanguageDropdown">
+                    <option value="auto">Automatic</option>
                     <option value="af">Afrikaans</option>
                     <option value="sq">Albanian</option>
                     <option value="am">Amharic</option>
@@ -65,7 +66,7 @@ Source Language Code:
             </th>
             <th align="left">
 Target Language Code:
-                <select id="targetLanguageCodeDropdown">
+                <select id="targetLanguageDropdown">
                     <option value="af">Afrikaans</option>
                     <option value="sq">Albanian</option>
                     <option value="am">Amharic</option>
@@ -150,7 +151,7 @@ Target Language Code:
         /**
         * Change the region and endpoint.
         */
-        AWS.config.region = "us-east-1"; // Region
+        AWS.config.region = "us-east-1";
 
          /**
          * In a production application you should use a secure method of authenticating uses, such as the ones
@@ -193,16 +194,16 @@ Target Language Code:
             }
 
             // get the language codes
-            var sourceDropdown = document.getElementById("sourceLanguageCodeDropdown");
+            var sourceDropdown = document.getElementById("sourceLanguageDropdown");
             var sourceLanguageCode = sourceDropdown.options[sourceDropdown.selectedIndex].value;
 
-            var targetDropdown = document.getElementById("targetLanguageCodeDropdown");
+            var targetDropdown = document.getElementById("targetLanguageDropdown");
             var targetLanguageCode = targetDropdown.options[targetDropdown.selectedIndex].value;
 
             var params = {
                 Text: inputText,
                 SourceLanguageCode: sourceLanguageCode,
-                TargetLanguageCode: targetLanguageCode
+                TargetLanguageCode: targetLanguageCode,
             };
 
             translate.translateText(params, function(err, data) {
@@ -214,6 +215,9 @@ Target Language Code:
                 if (data) {
                     var outputTextArea = document.getElementById("outputText");
                     outputTextArea.value = data.TranslatedText;
+                    if (sourceLanguageCode === "auto") {
+                        document.getElementById("sourceLanguageDropdown").value = data.SourceLanguageCode;
+                    }
                 }
             });
         }
@@ -223,7 +227,7 @@ Target Language Code:
             if (!text) {
                 return;
             }
-            var sourceLanguageCode = document.getElementById("sourceLanguageCodeDropdown").value;
+            var sourceLanguageCode = document.getElementById("sourceLanguageDropdown").value;
             doSynthesize(text, sourceLanguageCode);
         }
 
@@ -232,7 +236,7 @@ Target Language Code:
             if (!text) {
                 return;
             }
-            var targetLanguageCode = document.getElementById("targetLanguageCodeDropdown").value;
+            var targetLanguageCode = document.getElementById("targetLanguageDropdown").value;
             doSynthesize(text, targetLanguageCode);
         }
 
@@ -289,8 +293,8 @@ Target Language Code:
         function clearInputs() {
             document.getElementById("inputText").value = "";
             document.getElementById("outputText").value = "";
-            document.getElementById("sourceLanguageCodeDropdown").value = "en";
-            document.getElementById("targetLanguageCodeDropdown").value = "en";
+            document.getElementById("sourceLanguageDropdown").value = "auto";
+            document.getElementById("targetLanguageDropdown").value = "en";
         }
     </script>
 </body>
