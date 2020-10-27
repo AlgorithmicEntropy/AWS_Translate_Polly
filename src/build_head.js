@@ -11,6 +11,12 @@ function buildHead (params) {
       })
     }
 
+    if (params.css) {
+      params.css.forEach(sheet => {
+        html += '<link rel="stylesheet" href="' + sheet + '"\\>\n'
+      })
+    }
+
     html += '</head>\n'
     return html
   }
