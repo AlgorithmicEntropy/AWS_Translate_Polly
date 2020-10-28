@@ -1,9 +1,12 @@
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 5rem;">
         <h1 style="text-align: left">AWS Translate & Polly Demo</h1>
+        <div class="custom-control custom-switch" style="margin-left: 20px;">
+            <input type="checkbox" class="custom-control-input" id="darkSwitch" onclick="darkmode.toggle()"/>
+            <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+        </div>
+        <div id="alert" style="margin-left: 2rem; width: 50%;"></div>
     </nav>
-
-    <div id="alert"></div>
 
     <div class="container" style="justify-content: space-around; max-width: 100%;">
         <div class="card item" style="width: 50%;">
@@ -154,6 +157,11 @@
 
     <script type="text/javascript">
         bootstrap_alert = function() {}
+        darkmode = new Darkmode()
+
+        $(document).ready(function() {
+            $("#darkSwitch")[0].checked = darkmode.isActivated()
+        })
 
         bootstrap_alert.warning = function(message) {
             $("#alert").html('<div class="alert alert-danger"><strong>'+message+'</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')

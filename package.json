@@ -11,6 +11,7 @@
   "dependencies": {
     "aws-sdk": "^2.779.0",
     "bootstrap": "^4.5.3",
+    "dark-mode-switch": "^1.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1"
   }
