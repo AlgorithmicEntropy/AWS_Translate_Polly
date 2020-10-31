@@ -2,35 +2,50 @@
     display: flex; /* or inline-flex */
     flex-direction: row;
     margin: 0 -5px;
-  }
+}
 
 .item {
     order: 5; /* default is 0 */
     flex-grow: 1;
     margin: 0 5px;
-  }
+}
 
 .darkmode-layer, .darkmode-toggle {
     z-index: 500;
-  }
+}
 
 .darkmode--activated .card-header {
     background-color: #2f2f2f;
     mix-blend-mode: difference;
     color: #cfcfcf;
-  }
+}
 
 .darkmode--activated body {
     background-color: #cfcfcf;
     mix-blend-mode: difference;
-  }
+}
 
 .darkmode--activated .card {
     background-color: #efefef;
-  }
+}
 
 .darkmode--activated .alert, .darkmode--activated .close * {
     background-color: #440303;
     color: #cfcfcf;
     mix-blend-mode: difference;
-  }
+}
+
+.vertical-center {
+    width: inherit;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.action-button {
+    width: 100%;
+    margin: 100px auto;
+    display: block;
+}
