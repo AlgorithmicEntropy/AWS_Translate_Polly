@@ -1,10 +1,20 @@
 <body>
-    <h1 style="text-align: left">Amazon Translate Demo</h1>
-    <br/>
-    <table class="tg">
-        <tr>
-            <th align="left">
-Source Language Code:
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 5rem;">
+        <h1 style="text-align: left">AWS Translate & Polly Demo</h1>
+        <div class="custom-control custom-switch" style="margin-left: 20px;">
+            <input type="checkbox" class="custom-control-input" id="darkSwitch" onclick="darkmode.toggle()"/>
+            <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+        </div>
+        <div id="alert" style="margin-left: 2rem; width: 50%;"></div>
+    </nav>
+
+    <div class="container" style="justify-content: space-around; max-width: 100%;">
+        <div class="card item" style="width: 50%;">
+            <div class="card-header">
+                Input
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Language:</h5>
                 <select id="sourceLanguageDropdown">
                     <option value="auto">Automatic</option>
                     <option value="af">Afrikaans</option>
@@ -63,10 +73,23 @@ Source Language Code:
                     <option value="ur">Urdu</option>
                     <option value="vi">Vietnamese</option>
                 </select>
-            </th>
-            <th align="left">
-Target Language Code:
-                <select id="targetLanguageDropdown">
+                <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 20px;">Input Text</h6>
+                <textarea id="inputText" name="inputText" rows="10" cols="50" placeholder="Text to translate..." class="form-control"></textarea>
+                <div class="container" style="margin-top: 20px; justify-content: space-around; padding: 0;">
+                    <button type="button" name="synthesizeButton" class="btn btn-outline-primary item" onclick="doSynthesizeInput()">Synthesize Input Speech</button>
+                    <button type="button" name="translateButton" class="btn btn-primary item" onclick="doTranslate()">Translate</button>
+                    <button type="button" name="clearButton" class="btn btn-outline-primary item" onclick="clearInputs()">Clear</button>
+                </div>
+            </div>
+        </div>
+        <div" class="card item" style="width: 50%;">
+            <div class="card-header">
+                Output
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Language:</h5>
+                <select id="targetLanguageDropdown" >
+                    <option value="auto">Automatic</option>
                     <option value="af">Afrikaans</option>
                     <option value="sq">Albanian</option>
                     <option value="am">Amharic</option>
@@ -88,7 +111,7 @@ Target Language Code:
                     <option value="fr">French</option>
                     <option value="fr-CA">French (Canada)</option>
                     <option value="ka">Georgian</option>
-                    <option value="de">German</option>
+                    <option value="de" selected="selected">German</option>
                     <option value="el">Greek</option>
                     <option value="ha">Hausa</option>
                     <option value="he">Hebrew</option>
@@ -123,28 +146,30 @@ Target Language Code:
                     <option value="ur">Urdu</option>
                     <option value="vi">Vietnamese</option>
                 </select>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <textarea id="inputText" name="inputText" rows="10" cols="50" placeholder="Text to translate..."></textarea>
-            </th>
-            <th>
-                <textarea id="outputText" name="outputText" rows="10" cols="50" placeholder="Translated text..."></textarea>
-            </th>
-        </tr>
-        <tr>
-            <th align="left">
-                <button type="button" name="translateButton" class="btn btn-primary" onclick="doTranslate()">Translate</button>
-                <button type="button" name="synthesizeButton" onclick="doSynthesizeInput()">Synthesize Input Speech</button>
-                <button type="button" name="clearButton" onclick="clearInputs()">Clear</button>
-            </th>
-            <th align="left">
-                <button type="button" name="synthesizeButton" onclick="doSynthesizeOutput()">Synthesize Output Speech</button>
-            </th>
-        </tr>
-    </table>
+                <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 20px;">Input Text</h6>
+                <textarea id="outputText" name="outputText" rows="10" cols="50" placeholder="Translated text..." class="form-control"></textarea>
+                <div class="container" style="margin-top: 20px; justify-content: space-around; padding: 0;">
+                    <button type="button" name="synthesizeButton" class="btn btn-primary" onclick="doSynthesizeOutput()">Synthesize Output Speech</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
+        bootstrap_alert = function() {}
+        darkmode = new Darkmode()
+
+        $(document).ready(function() {
+            $("#darkSwitch")[0].checked = darkmode.isActivated()
+        })
+
+        bootstrap_alert.warning = function(message) {
+            $("#alert").html('<div class="alert alert-danger"><strong>'+message+'</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')
+            $("#alert").fadeTo(2000, 500).slideUp(500, function() {
+                $("#alert").slideUp(500);
+            });
+        }
+
         // set the focus to the input box
         document.getElementById("inputText").focus();
 
@@ -189,8 +214,8 @@ Target Language Code:
         function doTranslate() {
             var inputText = document.getElementById("inputText").value;
             if (!inputText) {
-                alert("Input text cannot be empty.");
-                exit();
+                bootstrap_alert.warning('Input text cannot be empty');
+                return
             }
 
             // get the language codes
@@ -209,12 +234,13 @@ Target Language Code:
             translate.translateText(params, function(err, data) {
                 if (err) {
                     console.log(err, err.stack);
-                    alert("Error calling Amazon Translate. " + err.message);
-                    return;
+                    $("#alert").te
+                    bootstrap_alert.warning('Error calling Amazon Translate. ' + err.message);
+                    return
                 }
                 if (data) {
                     var outputTextArea = document.getElementById("outputText");
-                    outputTextArea.value = data.TranslatedText;
+                    outputTextArea.value = data.TranslatedText
                     if (sourceLanguageCode === "auto") {
                         document.getElementById("sourceLanguageDropdown").value = data.SourceLanguageCode;
                     }
