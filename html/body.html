@@ -16,7 +16,7 @@
             <div class="card-body">
                 <h5 class="card-title">Language:</h5>
                 <select id="sourceLanguageDropdown" class="selectpicker">
-                    <option value="auto">Automatic</option>
+                    <option value="auto" selected="selected">Automatic</option>
                     <option value="af">Afrikaans</option>
                     <option value="sq">Albanian</option>
                     <option value="am">Amharic</option>
@@ -356,6 +356,41 @@
                     audioElement.play();
                 }
             });
+        }
+
+        function doSwitch() {
+            var sourceDropdown = document.getElementById("sourceLanguageDropdown");
+            var targetDropdown = document.getElementById("targetLanguageDropdown");
+            /* via index
+            // retrieve indicies of selected langauge
+            var sourceIndex = sourceDropdown.selectedIndex;
+            var targetIndex = targetDropdown.selectedIndex;
+            console.log(sourceIndex);
+            console.log(targetIndex);
+            // sourceDropdown might be set to 'auto' -> invalid option for targetDropdown
+            if (sourceDropdown.value == "auto") {
+                sourceIndex = targetIndex
+            } 
+            // switch language content
+            var sourceLanguage = document.getElementById("sourceLanguageDropdown").selectedIndex = targetIndex;
+            var targetLanguage = document.getElementById("targetLanguageDropdown").selectedIndex = sourceIndex;            
+            */
+            /* via language code */
+            var sourceLanguage = sourceDropdown.value;
+            var targetLanguage = targetDropdown.value;
+            console.log(sourceLanguage);
+            console.log(targetLanguage);
+            // sourceDropdown might be set to 'auto' -> invalid option for targetDropdown
+            if (sourceLanguage == "auto") {
+                sourceLanguage = targetLanguage
+            } 
+            // switch language content
+            document.getElementById("sourceLanguageDropdown").value = targetLanguage;
+            document.getElementById("targetLanguageDropdown").value = sourceLanguage;
+            // switch text content
+            var inputText = document.getElementById("inputText").value;
+            document.getElementById("inputText").value  = document.getElementById("outputText").value;
+            document.getElementById("outputText").value = inputText;
         }
 
         function clearInputs() {
