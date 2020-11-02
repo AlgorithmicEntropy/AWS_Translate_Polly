@@ -170,6 +170,10 @@
             });
         }
 
+        function getSelectedText(sel) {
+            return sel.options[sel.selectedIndex].text
+        }
+
         // set the focus to the input box
         document.getElementById("inputText").focus();
 
@@ -212,20 +216,20 @@
         var polly = new AWS.Polly();
 
         function doTranslate() {
-            var inputText = document.getElementById("inputText").value;
+            let inputText = document.getElementById("inputText").value;
             if (!inputText) {
                 bootstrap_alert.warning('Input text cannot be empty');
                 return
             }
 
             // get the language codes
-            var sourceDropdown = document.getElementById("sourceLanguageDropdown");
-            var sourceLanguageCode = sourceDropdown.options[sourceDropdown.selectedIndex].value;
+            let sourceDropdown = document.getElementById("sourceLanguageDropdown");
+            let sourceLanguageCode = sourceDropdown.options[sourceDropdown.selectedIndex].value;
 
-            var targetDropdown = document.getElementById("targetLanguageDropdown");
-            var targetLanguageCode = targetDropdown.options[targetDropdown.selectedIndex].value;
+            let targetDropdown = document.getElementById("targetLanguageDropdown");
+            let targetLanguageCode = targetDropdown.options[targetDropdown.selectedIndex].value;
 
-            var params = {
+            let params = {
                 Text: inputText,
                 SourceLanguageCode: sourceLanguageCode,
                 TargetLanguageCode: targetLanguageCode,
@@ -239,7 +243,7 @@
                     return
                 }
                 if (data) {
-                    var outputTextArea = document.getElementById("outputText");
+                    let outputTextArea = document.getElementById("outputText");
                     outputTextArea.value = data.TranslatedText
                     if (sourceLanguageCode === "auto") {
                         document.getElementById("sourceLanguageDropdown").value = data.SourceLanguageCode;
@@ -249,25 +253,27 @@
         }
 
         function doSynthesizeInput() {
-            var text = document.getElementById("inputText").value.trim();
-            if (!text) {
-                return;
-            }
-            var sourceLanguageCode = document.getElementById("sourceLanguageDropdown").value;
-            doSynthesize(text, sourceLanguageCode);
+            let text = document.getElementById("inputText").value.trim();
+            let sourceSelect = document.getElementById("sourceLanguageDropdown")
+            let sourceLanguageCode = sourceSelect.value
+            let sourceLanguageName = getSelectedText(sourceSelect)
+            doSynthesize(text, sourceLanguageCode, sourceLanguageName)
         }
 
         function doSynthesizeOutput() {
-            var text = document.getElementById("outputText").value.trim();
-            if (!text) {
-                return;
-            }
-            var targetLanguageCode = document.getElementById("targetLanguageDropdown").value;
-            doSynthesize(text, targetLanguageCode);
+            let text = document.getElementById("outputText").value.trim();
+            let targetSelect = document.getElementById("targetLanguageDropdown")
+            let targetLanguageCode = targetSelect.value;
+            let targetLanguageName = getSelectedText(targetSelect)
+            doSynthesize(text, targetLanguageCode, targetLanguageName);
         }
 
-        function doSynthesize(text, languageCode) {
-            var voiceId;
+        function doSynthesize(text, languageCode, languageName) {
+            if(text == '') {
+                bootstrap_alert.warning('Input text cannot be empty');
+            }
+
+            let voiceId;
             switch (languageCode) {
                 case "de":
                     voiceId = "Marlene";
@@ -289,10 +295,10 @@
                     break;
             }
             if (!voiceId) {
-                alert("Speech synthesis unsupported for language code: \"" + languageCode + "\"");
+                bootstrap_alert.warning("Speech synthesis unsupported for language: " + languageName);
                 return;
             }
-            var params = {
+            let params = {
                 OutputFormat: "mp3",
                 SampleRate: "8000",
                 Text: text,
@@ -302,13 +308,13 @@
             polly.synthesizeSpeech(params, function(err, data) {
                 if (err) {
                     console.log(err, err.stack); // an error occurred
-                    alert("Error calling Amazon Polly. " + err.message);
+                    bootstrap_alert.warning("Error calling Amazon Polly. " + err.message);
                 }
                 else {
-                    var uInt8Array = new Uint8Array(data.AudioStream);
-                    var arrayBuffer = uInt8Array.buffer;
-                    var blob = new Blob([arrayBuffer]);
-                    var url = URL.createObjectURL(blob);
+                    let uInt8Array = new Uint8Array(data.AudioStream);
+                    let arrayBuffer = uInt8Array.buffer;
+                    let blob = new Blob([arrayBuffer]);
+                    let url = URL.createObjectURL(blob);
 
                     audioElement = new Audio([url]);
                     audioElement.play();
