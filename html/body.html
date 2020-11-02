@@ -16,7 +16,7 @@
             <div class="card-body">
                 <h5 class="card-title">Language:</h5>
                 <select id="sourceLanguageDropdown" class="selectpicker">
-                    <option value="auto">Automatic</option>
+                    <option value="auto" selected="selected">Automatic</option>
                     <option value="af">Afrikaans</option>
                     <option value="sq">Albanian</option>
                     <option value="am">Amharic</option>
@@ -82,6 +82,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="card item" style="width: 10%;">
+            <div class="card-body text-center">
+                <button type="button" name="switchButton" class="btn btn-outline-primary item action-button" data-toggle="tooltip" data-placement="top" title="Switch" onclick="doSwitch()">
+                    <svg width="60%" height="50" viewBox="0 0 16 16" class="bi bi-arrow-left-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
         <div" class="card item" style="width: 50%;">
             <div class="card-header">
                 Output
@@ -314,6 +325,41 @@
                     audioElement.play();
                 }
             });
+        }
+
+        function doSwitch() {
+            var sourceDropdown = document.getElementById("sourceLanguageDropdown");
+            var targetDropdown = document.getElementById("targetLanguageDropdown");
+            /* via index
+            // retrieve indicies of selected langauge
+            var sourceIndex = sourceDropdown.selectedIndex;
+            var targetIndex = targetDropdown.selectedIndex;
+            console.log(sourceIndex);
+            console.log(targetIndex);
+            // sourceDropdown might be set to 'auto' -> invalid option for targetDropdown
+            if (sourceDropdown.value == "auto") {
+                sourceIndex = targetIndex
+            } 
+            // switch language content
+            var sourceLanguage = document.getElementById("sourceLanguageDropdown").selectedIndex = targetIndex;
+            var targetLanguage = document.getElementById("targetLanguageDropdown").selectedIndex = sourceIndex;            
+            */
+            /* via language code */
+            var sourceLanguage = sourceDropdown.value;
+            var targetLanguage = targetDropdown.value;
+            console.log(sourceLanguage);
+            console.log(targetLanguage);
+            // sourceDropdown might be set to 'auto' -> invalid option for targetDropdown
+            if (sourceLanguage == "auto") {
+                sourceLanguage = targetLanguage
+            } 
+            // switch language content
+            document.getElementById("sourceLanguageDropdown").value = targetLanguage;
+            document.getElementById("targetLanguageDropdown").value = sourceLanguage;
+            // switch text content
+            var inputText = document.getElementById("inputText").value;
+            document.getElementById("inputText").value  = document.getElementById("outputText").value;
+            document.getElementById("outputText").value = inputText;
         }
 
         function clearInputs() {
