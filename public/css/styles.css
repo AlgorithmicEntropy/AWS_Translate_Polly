@@ -1,7 +1,7 @@
 .container {
     display: flex; /* or inline-flex */
-    flex-direction: row;
     margin: 0 -5px;
+    flex-direction: row;
 }
 
 .item {
