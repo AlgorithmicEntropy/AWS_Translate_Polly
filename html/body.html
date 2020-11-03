@@ -327,7 +327,7 @@
                     break;
             }
             if (!voiceId) {
-                alert("Speech synthesis unsupported for language code: \"" + languageCode + "\"");
+                bootstrap_alert.warning("Speech synthesis unsupported for language code: \"" + languageCode + "\"");
                 return;
             }
             var params = {
@@ -340,6 +340,7 @@
             polly.synthesizeSpeech(params, function(err, data) {
                 if (err) {
                     console.log(err, err.stack); // an error occurred
+                    bootstrap_alert.warning('Error calling Amazon Translate. ' + err.message);
                     alert("Error calling Amazon Polly. " + err.message);
                 }
                 else {
@@ -361,25 +362,8 @@
         function doSwitch() {
             var sourceDropdown = document.getElementById("sourceLanguageDropdown");
             var targetDropdown = document.getElementById("targetLanguageDropdown");
-            /* via index
-            // retrieve indicies of selected langauge
-            var sourceIndex = sourceDropdown.selectedIndex;
-            var targetIndex = targetDropdown.selectedIndex;
-            console.log(sourceIndex);
-            console.log(targetIndex);
-            // sourceDropdown might be set to 'auto' -> invalid option for targetDropdown
-            if (sourceDropdown.value == "auto") {
-                sourceIndex = targetIndex
-            } 
-            // switch language content
-            var sourceLanguage = document.getElementById("sourceLanguageDropdown").selectedIndex = targetIndex;
-            var targetLanguage = document.getElementById("targetLanguageDropdown").selectedIndex = sourceIndex;            
-            */
-            /* via language code */
             var sourceLanguage = sourceDropdown.value;
             var targetLanguage = targetDropdown.value;
-            console.log(sourceLanguage);
-            console.log(targetLanguage);
             // sourceDropdown might be set to 'auto' -> invalid option for targetDropdown
             if (sourceLanguage == "auto") {
                 sourceLanguage = targetLanguage
@@ -387,6 +371,8 @@
             // switch language content
             document.getElementById("sourceLanguageDropdown").value = targetLanguage;
             document.getElementById("targetLanguageDropdown").value = sourceLanguage;
+            // refresh all dropdowns
+            $('.selectpicker').selectpicker('refresh');
             // switch text content
             var inputText = document.getElementById("inputText").value;
             document.getElementById("inputText").value  = document.getElementById("outputText").value;
@@ -398,6 +384,8 @@
             document.getElementById("outputText").value = "";
             document.getElementById("sourceLanguageDropdown").value = "auto";
             document.getElementById("targetLanguageDropdown").value = "en";
+            // refresh all dropdowns
+            $('.selectpicker').selectpicker('refresh');
         }
     </script>
 </body>
