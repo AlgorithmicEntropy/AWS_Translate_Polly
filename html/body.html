@@ -9,14 +9,14 @@
     </nav>
 
     <div class="container" style="justify-content: space-around; max-width: 100%;">
-        <div class="card item" style="width: 50%;">
+        <div class="card item" style="width: 45%;">
             <div class="card-header">
                 Input
             </div>
             <div class="card-body">
                 <h5 class="card-title">Language:</h5>
                 <select id="sourceLanguageDropdown" class="selectpicker">
-                    <option value="auto">Automatic</option>
+                    <option value="auto" selected="selected">Automatic</option>
                     <option value="af">Afrikaans</option>
                     <option value="sq">Albanian</option>
                     <option value="am">Amharic</option>
@@ -76,20 +76,44 @@
                 <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 20px;">Input Text</h6>
                 <textarea id="inputText" name="inputText" rows="10" cols="50" placeholder="Text to translate..." class="form-control"></textarea>
                 <div class="container" style="margin-top: 20px; justify-content: space-around; padding: 0;">
-                    <button type="button" name="synthesizeButton" class="btn btn-outline-primary item" onclick="doSynthesizeInput()">Synthesize Input Speech</button>
-                    <button type="button" name="translateButton" class="btn btn-primary item" onclick="doTranslate()">Translate</button>
-                    <button type="button" name="clearButton" class="btn btn-outline-primary item" onclick="clearInputs()">Clear</button>
+                    <button type="button" name="synthesizeButton" class="btn btn-outline-primary item" id="synthesizeInputButton" data-toggle="tooltip" data-placement="bottom" title="Listen" onclick="doSynthesizeInput()" style="margin-right: 0;">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-volume-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04L4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04z"/>
+                            <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
+                            <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
+                            <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707z"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
-        <div" class="card item" style="width: 50%;">
+        <div class="card item" style="width: 10%;">
+            <div class="card-body">
+                <button type="button" name="switchButton" class="btn btn-outline-primary item action-button" data-toggle="tooltip" data-placement="top" title="Switch" onclick="doSwitch()">
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                    </svg>
+                </button>
+                <button type="button" name="translateButton" class="btn btn-primary item action-button" data-toggle="tooltip" data-placement="top" title="Translate" onclick="doTranslate()">
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-return-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+                    </svg>
+                </button>
+                <button type="button" name="clearButton" class="btn btn-outline-primary item action-button" data-toggle="tooltip" data-placement="top" title="Clear" onclick="clearInputs()">
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="card item" style="width: 45%;">
             <div class="card-header">
                 Output
             </div>
             <div class="card-body">
                 <h5 class="card-title">Language:</h5>
                 <select id="targetLanguageDropdown" class="selectpicker">
-                    <option value="auto">Automatic</option>
                     <option value="af">Afrikaans</option>
                     <option value="sq">Albanian</option>
                     <option value="am">Amharic</option>
@@ -149,7 +173,14 @@
                 <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 20px;">Input Text</h6>
                 <textarea id="outputText" name="outputText" rows="10" cols="50" placeholder="Translated text..." class="form-control"></textarea>
                 <div class="container" style="margin-top: 20px; justify-content: space-around; padding: 0;">
-                    <button type="button" name="synthesizeButton" class="btn btn-primary" onclick="doSynthesizeOutput()">Synthesize Output Speech</button>
+                    <button type="button" name="synthesizeButton" class="btn btn-outline-primary item" id="synthesizeOutputButton" data-toggle="tooltip" data-placement="bottom" title="Listen" onclick="doSynthesizeOutput()" style="margin-right: 0;">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-volume-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04L4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04z"/>
+                            <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
+                            <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
+                            <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707z"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -169,10 +200,14 @@
                 $("#alert").slideUp(500);
             });
         }
-
+      
         function getSelectedText(sel) {
             return sel.options[sel.selectedIndex].text
         }
+
+        $(function () {
+            $("[data-toggle='tooltip']").tooltip()
+        })
 
         // set the focus to the input box
         document.getElementById("inputText").focus();
@@ -307,7 +342,6 @@
             };
             polly.synthesizeSpeech(params, function(err, data) {
                 if (err) {
-                    console.log(err, err.stack); // an error occurred
                     bootstrap_alert.warning("Error calling Amazon Polly. " + err.message);
                 }
                 else {
@@ -317,9 +351,33 @@
                     let url = URL.createObjectURL(blob);
 
                     audioElement = new Audio([url]);
+                    audioElement.onended = function() {
+                        document.getElementById("synthesizeInputButton").innerHTML = "<svg width='1.5em' height='1.5em' viewBox='0 0 16 16' class='bi bi-volume-up' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04L4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04z'/><path d='M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z'/><path d='M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z'/><path d='M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707z'/></svg>";
+                        document.getElementById("synthesizeOutputButton").innerHTML = "<svg width='1.5em' height='1.5em' viewBox='0 0 16 16' class='bi bi-volume-up' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04L4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04z'/><path d='M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z'/><path d='M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z'/><path d='M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707z'/></svg>";
+                    }
                     audioElement.play();
                 }
             });
+        }
+
+        function doSwitch() {
+            var sourceDropdown = document.getElementById("sourceLanguageDropdown");
+            var targetDropdown = document.getElementById("targetLanguageDropdown");
+            var sourceLanguage = sourceDropdown.value;
+            var targetLanguage = targetDropdown.value;
+            // sourceDropdown might be set to 'auto' -> invalid option for targetDropdown
+            if (sourceLanguage == "auto") {
+                sourceLanguage = targetLanguage
+            } 
+            // switch language content
+            document.getElementById("sourceLanguageDropdown").value = targetLanguage;
+            document.getElementById("targetLanguageDropdown").value = sourceLanguage;
+            // refresh all dropdowns
+            $('.selectpicker').selectpicker('refresh');
+            // switch text content
+            var inputText = document.getElementById("inputText").value;
+            document.getElementById("inputText").value  = document.getElementById("outputText").value;
+            document.getElementById("outputText").value = inputText;
         }
 
         function clearInputs() {
@@ -327,6 +385,8 @@
             document.getElementById("outputText").value = "";
             document.getElementById("sourceLanguageDropdown").value = "auto";
             document.getElementById("targetLanguageDropdown").value = "en";
+            // refresh all dropdowns
+            $('.selectpicker').selectpicker('refresh');
         }
     </script>
 </body>
