@@ -315,14 +315,14 @@
 
         function getVoiceId(languageCode) {
             for (let i = 0; i < pollyVoices.length; i++) {
-                var voiceData = pollyVoices[i];
+                let voiceData = pollyVoices[i];
                 if (voiceData.LanguageCode.startsWith(languageCode))  {
                     // console.log("match:", voiceData);
-                    return voiceData.Id;
+                    return {voiceId: voiceData.Id, engine: voiceData.SupportedEngines[0]};
                 }
             }
             // console.log("no voice matched!");
-            return null;
+            return {voiceId: null, engine: "standard"};
         }
 
         function doSynthesize(text, languageCode, languageName) {
@@ -330,19 +330,23 @@
                 bootstrap_alert.warning('Input text cannot be empty');
             }
 
-            var voiceId = getVoiceId(languageCode);
+            let voiceData = getVoiceId(languageCode);
             
-            if (!voiceId) {
+            if (!voiceData.voiceId) {
                 bootstrap_alert.warning("Speech synthesis unsupported for language: " + languageName);
                 return;
             }
             let params = {
+                Engine: voiceData.engine,
                 OutputFormat: "mp3",
                 SampleRate: "8000",
                 Text: text,
                 TextType: "text",
-                VoiceId: voiceId
+                VoiceId: voiceData.voiceId
             };
+
+            // console.log(voiceData);
+
             polly.synthesizeSpeech(params, function(err, data) {
                 if (err) {
                     bootstrap_alert.warning("Error calling Amazon Polly. " + err.message);
