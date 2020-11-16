@@ -1,5 +1,9 @@
 function buildHead (params) {
   let html = '<head>\n'
+
+  // hardcode no index for now
+  html += '<meta name="robots" content="noindex">\n'
+
   if (params.scripts) {
     params.scripts.forEach(script => {
       html += '<script src="' + script + '"></script>\n'
